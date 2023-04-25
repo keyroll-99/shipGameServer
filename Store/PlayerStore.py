@@ -5,7 +5,7 @@ class PlayerStore:
     players: list[Player] = []
 
     @staticmethod
-    def find_by_name(name: str) -> Player:
+    def find_by_name(name: str) -> Player | None:
         players = list(filter(lambda x: x.name == name, PlayerStore.players))
         return players[0]
 

@@ -1,7 +1,7 @@
 from Endpoints.BaseController import BaseController
 from Models.Player import Player
 from Store.PlayerStore import PlayerStore
-
+from Store.GameStore import GameStore
 
 class PlayerController(BaseController):
     basePath = "player"
@@ -24,5 +24,6 @@ class PlayerController(BaseController):
 
     @staticmethod
     def exit(playerName):
+        GameStore.remove_all_player_game(playerName)
         PlayerStore.remove_player(playerName)
         return {"isSuccess": True}

@@ -21,5 +21,7 @@ class GameRoomsController(BaseController):
     @staticmethod
     def create_room(request):
         player = PlayerStore.find_by_name(request["playerName"])
+        if GameStore.exists_by_name(request["name"]):
+            return {"isSuccess": False, "message": "Room with this name exits"}
         GameStore.add_game(request["name"], player)
         return {"isSuccess": True}
