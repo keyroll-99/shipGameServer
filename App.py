@@ -32,26 +32,20 @@ class App:
                 action = data["action"]
                 controller = action['controller']
                 action = action['route']
-                response = {}
-                if "data" in data.keys():
-                    response = self.endpoints[controller].actions[action](data["data"])
-                else:
-                    response = self.endpoints[controller].actions[action]()
+                response = self.call_endpoint(controller, action, data["data"] if "data" in data.keys() else None)
                 conn.send(bytes(f'{json.dumps(response)}', "utf-8"))
             # except Exception as e:
             #     print(e)
             #     error_response = {"message": "server-error"}
             #     conn.send(bytes(f"{json.dumps(error_response)}", "utf-8"))
 
+    def close(self):
+        self.sock.close()
 
-def close(self):
-    self.sock.close()
+    def call_endpoint(self, controller, action, data):
+        if controller not in self.endpoints.keys():
+            return {"isSuccess": False, "Message": "endpoint doesnt exits"}
 
-
-def call_endpoint(self, endpoint, data):
-    if endpoint not in self.endpoints.keys():
-        return {"isSuccess": False, "Message": "endpoint doesnt exits"}
-
-    if data is not None:
-        return self.endpoints[endpoint]
-    return self.endpoints[endpoint]()
+        if data is not None:
+            return self.endpoints[controller].actions[action](data)
+        return self.endpoints[controller].actions[action]()

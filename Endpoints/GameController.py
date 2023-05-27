@@ -11,7 +11,8 @@ class GameController(BaseController):
         self.actions = {
             "join": self.join_to_game,
             "can-start": self.can_game_start,
-            "get-game-data": self.get_game_data
+            "get-game-data": self.get_game_data,
+            "ready": self.ready
         }
 
     @staticmethod
@@ -47,4 +48,17 @@ class GameController(BaseController):
             return {"isSuccess": False}
 
         return game.get_game_data(player_name)
+
+    @staticmethod
+    def ready(request):
+        player_name = request["playerName"]
+        player_board = request["playerBoard"]
+        gameName = request["gameName"]
+        player = PlayerStore.find_by_name(player_name)
+        player.set_is_ready(player_board)
+
+        game = GameStore.find_by_name(gameName)
+        game.set_game_phase()
+
+        return {"isSuccess": True}
 

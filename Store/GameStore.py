@@ -14,7 +14,10 @@ class GameStore:
 
     @staticmethod
     def find_by_name(name: str) -> Game | None:
-        return list(filter(lambda x: x.name == name, GameStore.games))[0]
+        try:
+            return list(filter(lambda x: x.name == name, GameStore.games))[0]
+        except:
+            return None
 
     @staticmethod
     def exists_by_name(name: str) -> bool:

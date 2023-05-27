@@ -1,3 +1,5 @@
+import random
+
 from Models.Player import Player
 
 
@@ -22,6 +24,15 @@ class Game:
         if self.can_other_player_join():
             self.player2 = player
             self.player2.game_init()
+
+    def set_game_phase(self):
+        if self.player1.ready and self.player2.ready:
+            self.game_phase = "game"
+            rand = random.randint(0, 1)
+            if rand == 0:
+                self.moving_player = self.player1
+            else:
+                self.moving_player = self.player2
 
     def game_can_start(self):
         return self.player1 is None and self.player2 is None
