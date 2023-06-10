@@ -12,7 +12,9 @@ class GameController(BaseController):
             "join": self.join_to_game,
             "can-start": self.can_game_start,
             "get-game-data": self.get_game_data,
-            "ready": self.ready
+            "ready": self.ready,
+            'move': self.move,
+            'close': self.close
         }
 
     @staticmethod
@@ -61,4 +63,21 @@ class GameController(BaseController):
         game.set_game_phase()
 
         return {"isSuccess": True}
+
+    @staticmethod
+    def move(request):
+        player_name = request['playerName']
+        cords = request['cords']
+        game_name = request["gameName"]
+        game = GameStore.find_by_name(game_name)
+        player = PlayerStore.find_by_name(player_name)
+        game.move(player, cords)
+
+    @staticmethod
+    def close(request):
+        game_name = request["gameName"]
+        game = GameStore.find_by_name(game_name)
+        game.remove_player(request['playerName'])
+        if game.can_remove():
+            GameStore.remove_game(game_name)
 

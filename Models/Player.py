@@ -13,7 +13,7 @@ class Player:
         self.hit_target = 0
         self.lost_target = 0
         self.player_board = []
-        self.player_hit = [[0] * 10 for _ in range(10)]
+        self.player_hit = [[None] * 10 for _ in range(10)]
         self.ready = False
 
     def set_is_ready(self, playerBoard):

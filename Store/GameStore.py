@@ -20,6 +20,10 @@ class GameStore:
             return None
 
     @staticmethod
+    def remove_game(name: str):
+        GameStore.games = list(filter(lambda x: x.name != name, GameStore.games))
+
+    @staticmethod
     def exists_by_name(name: str) -> bool:
         return len(list(filter(lambda x: x.name == name, GameStore.games))) > 0
 
@@ -34,3 +38,4 @@ class GameStore:
         GameStore.games = list(
             filter(lambda x: x.player1.name != player_name and (x.player2 is None or x.player2.name != player_name),
                    GameStore.games))
+

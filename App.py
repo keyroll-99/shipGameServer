@@ -27,17 +27,12 @@ class App:
             conn, addr = self.sock.accept()
             with conn:
                 request = conn.recv(4086)
-                # try:
                 data = json.loads(request.decode("utf-8"))
                 action = data["action"]
                 controller = action['controller']
                 action = action['route']
                 response = self.call_endpoint(controller, action, data["data"] if "data" in data.keys() else None)
                 conn.send(bytes(f'{json.dumps(response)}', "utf-8"))
-            # except Exception as e:
-            #     print(e)
-            #     error_response = {"message": "server-error"}
-            #     conn.send(bytes(f"{json.dumps(error_response)}", "utf-8"))
 
     def close(self):
         self.sock.close()
