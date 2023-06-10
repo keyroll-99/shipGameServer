@@ -3,6 +3,7 @@ from Models.Player import Player
 from Store.PlayerStore import PlayerStore
 from Store.GameStore import GameStore
 
+
 class PlayerController(BaseController):
     basePath = "player"
     actions = {}
